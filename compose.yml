@@ -1,0 +1,9 @@
+services:
+  runn_test_api:
+    container_name: runn_test_api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    restart: always
