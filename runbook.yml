@@ -1,0 +1,27 @@
+desc: runn test
+runners:
+  req: http://localhost:8888
+steps:
+  signin:
+    desc: サインインしてトークンを取得する
+    # curl -X POST -H "Content-Type: application/json" -d '{"email":"example@example.co.jp", "password":"1234"}' http://localhost:8888/signin
+    req:
+      /signin:
+        post:
+          body:
+            application/json:
+              email: "example@example.co.jp"
+              password: "1234"
+    test: current.res.status == 200
+    bind:
+      access_token: current.res.body.access_token
+
+  list_posts:
+    desc: 投稿一覧を取得する
+    # curl -H "Authorization: access_token" http://localhost:8888/posts
+    req:
+      /posts:
+        get:
+          headers:
+            authorization: "{{ access_token }}"
+    test: current.res.status == 200
